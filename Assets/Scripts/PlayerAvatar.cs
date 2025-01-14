@@ -8,6 +8,7 @@ public class PlayerAvatar : MonoBehaviourPun
     [SerializeField] private Text       txtNickname;
     [SerializeField] private Text       txtChat;
     [SerializeField] private GameObject chatBubble;
+    [SerializeField] private EmotionEffect emotionEffect;
 
     private AvatarController _controller;
     private string _nickname;
@@ -57,5 +58,10 @@ public class PlayerAvatar : MonoBehaviourPun
         txtChat.text = null;
 
         chatBubble.SetActive(false);
+    }
+
+    public void PlayEmotion(string emotion)
+    {
+        emotionEffect.PlayEmotion(emotion);
     }
 }

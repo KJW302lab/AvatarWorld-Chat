@@ -48,6 +48,34 @@ public class ChatManager : MonoBehaviourPun
         targetAvatar.ShowChat(chat);
     }
 
+    public void PlayEmotionEffect(string emotion)
+    {
+        var actorNumber = PhotonNetwork.LocalPlayer.ActorNumber;
+        photonView.RPC(nameof(SendEmotion), RpcTarget.All, actorNumber, emotion);
+    }
+
+    [PunRPC]
+    private void SendEmotion(int actorNumber, string emotion)
+    {
+        var allAvatars = FindObjectsByType<PlayerAvatar>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+
+        PlayerAvatar targetAvatar = null;
+
+        foreach (var avatar in allAvatars)
+        {
+            if (avatar.IsTargetAvatar(actorNumber))
+            {
+                targetAvatar = avatar;
+                break;
+            }
+        }
+
+        if (targetAvatar == null)
+            return;
+
+        targetAvatar.PlayEmotion(emotion);
+    }
+
     private void Update()
     {
         // 엔터키 입력을 감지해서

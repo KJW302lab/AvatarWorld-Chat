@@ -19,7 +19,16 @@ public class UIChat : MonoBehaviour
         {
             // 인풋필드에 텍스트가 적혀있으면(채팅이 입력되어 있으면)
             if (string.IsNullOrEmpty(inputChat.text) == false)
-                ChatManager.Instance.Chat(inputChat.text);
+            {
+                if(inputChat.text.StartsWith('/'))
+                {
+                    ChatManager.Instance.PlayEmotionEffect(inputChat.text);
+                }
+                else
+                {
+                    ChatManager.Instance.Chat(inputChat.text);
+                }
+            }
             
             // 아바타가 움직일 수 있게
             GameManager.Instance.MyAvatar.SetMovable(true);
